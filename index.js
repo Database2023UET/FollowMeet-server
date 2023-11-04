@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
 import axios from "axios";
-import mysql from "mysql";
+import login from "./routes/login.js";
 /* CONFIGUARATION */
 dotenv.config();
 const app = express();
@@ -30,21 +30,6 @@ app.get("/check", (req, res) => {
 
 
 /* SERVER */
-
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DATABASE,
-    connectionLimit: 10,
-});
-
-pool.getConnection((err) => {
-    if (err) {
-        return console.error(err.message);
-    }
-    console.log("Connected to the MySQL server.");
-    app.listen(port, () => {
-        console.log(`Server is running on port ${port}`);
-    });
+app.listen(port, async () => {
+  console.log(`Server is listening on port ${port}`);
 });
