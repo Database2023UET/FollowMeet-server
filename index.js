@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
 import axios from "axios";
-import login from "./routes/login.js";
+import login from "./API/login.js";
 /* CONFIGUARATION */
 dotenv.config();
 const app = express();
