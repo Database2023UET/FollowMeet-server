@@ -1,6 +1,6 @@
-import argon2 from argon2;
+import * as argon2 from "argon2";
 
 export default async function hashThePassword(password) {
-    const hash = await argon2.hash("password");
-    return hash;
+	const passwordHash = await argon2.hash(password);
+	return passwordHash;
 }

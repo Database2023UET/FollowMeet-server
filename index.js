@@ -6,6 +6,9 @@ import helmet from "helmet";
 import morgan from "morgan";
 import axios from "axios";
 import login from "./API/login.js";
+import createNewUser from "./API/Utils/createNewUser.js";
+import initDatabase from "./API/Utils/initDatabase.js";
+import register from "./API/register.js";
 /* CONFIGUARATION */
 dotenv.config();
 const app = express();
@@ -20,16 +23,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 /* ROUTES */
-app.get("/", (req, res) => {
-  res.send("Hello World");
+app.get("/", async (req, res) => {
+	await initDatabase();
+	res.send("Hello World");
 });
 
-app.get("/check", (req, res) => {
-  res.send("Hello World 3");
+app.get("/register", async (req, res) => {
+	const { username, email, password, fullName, gender } = req.body;
+	console.log(req.body);
+	try {
+		await register(username, email, password, fullName, gender);
+	} catch (err) {
+		throw err;
+	}
 });
-
 
 /* SERVER */
 app.listen(port, async () => {
-  console.log(`Server is listening on port ${port}`);
+	console.log(`Server is listening on port ${port}`);
 });
