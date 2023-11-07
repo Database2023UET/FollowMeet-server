@@ -1,9 +1,11 @@
+import * as argon2 from "argon2";
 import checkUserExist from "./Utils/checkUserExist.js";
 import getUserPasswordHash from "./Utils/getUserPasswordHash.js";
 import pool from "./database.js";
+import hashThePassword from "./Utils/hashThePassword.js";
 
 export default async function login(username, password) {
-    if (!checkUserExist(username)) {
+    if (await checkUserExist(username) == false) {
         throw new Error("User is not exist");
     } else {
         const passwordHash = await getUserPasswordHash(username);

@@ -1,6 +1,8 @@
+DROP TABLE IF EXISTS users, posts, comments, follow, user_friend, user_react_post, user_react_comment;
+
 CREATE TABLE IF NOT EXISTS users (
 	id INTEGER UNIQUE NOT NULL,
-    passWordHash INTEGER NOT NULL,
+    passWordHash VARCHAR(100) NOT NULL,
     userName VARCHAR(100) NOT NULL,
     profilePicture VARCHAR(1000),
     fullName VARCHAR(100),

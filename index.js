@@ -24,21 +24,37 @@ app.use(cors());
 
 /* ROUTES */
 app.get("/", async (req, res) => {
-	await initDatabase();
 	res.send("Hello World");
 });
 
-app.get("/register", async (req, res) => {
+app.post("/register", async (req, res) => {
 	const { username, email, password, fullName, gender } = req.body;
 	console.log(req.body);
 	try {
 		await register(username, email, password, fullName, gender);
+		res.send("Register successfully");
 	} catch (err) {
-		throw err;
+		console.log(err.message);
+		res.status(401).send(err.message);
+		return;
+	}
+});
+
+app.post("/login", async (req, res) => {
+	const { username, password } = req.body;
+	console.log(req.body);
+	try {
+		await login(username, password);
+		res.send("Login successfully");
+	} catch (err) {
+		console.log(err.message);
+		res.status(401).send(err.message);
+		return;
 	}
 });
 
 /* SERVER */
 app.listen(port, async () => {
+	await initDatabase();
 	console.log(`Server is listening on port ${port}`);
 });
