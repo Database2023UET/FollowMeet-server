@@ -2,7 +2,7 @@ import pool from "../database.js";
 import fs from "fs";
 
 export default async function initDatabase() {
-	await fs.readFile("initDatabase.sql", "utf8", async function (err, data) {
+	fs.readFile("initDatabase.sql", "utf8", async function (err, data) {
 		if (err) throw err;
 		try {
 			await pool.query(data);

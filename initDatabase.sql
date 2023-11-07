@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS users, posts, comments, follow, user_friend, user_react_post, user_react_comment;
+DROP TABLE IF EXISTS user_react_comment, user_react_post, comments, posts, user_friend, follow, users;
 
 CREATE TABLE IF NOT EXISTS users (
 	id INTEGER UNIQUE NOT NULL,

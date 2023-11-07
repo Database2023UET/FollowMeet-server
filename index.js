@@ -55,6 +55,11 @@ app.post("/login", async (req, res) => {
 
 /* SERVER */
 app.listen(port, async () => {
-	await initDatabase();
+	try {
+		await initDatabase();
+	} catch(err) {
+		console.log(err.message);
+		return;
+	}
 	console.log(`Server is listening on port ${port}`);
 });
