@@ -35,7 +35,7 @@ app.post("/register", async (req, res) => {
 		res.send("Register successfully");
 	} catch (err) {
 		console.log(err.message);
-		res.status(401).send(err.message);
+		res.status(400).send(err.message);
 		return;
 	}
 });
@@ -48,7 +48,7 @@ app.post("/login", async (req, res) => {
 		res.send("Login successfully");
 	} catch (err) {
 		console.log(err.message);
-		res.status(401).send(err.message);
+		res.status(400).send(err.message);
 		return;
 	}
 });
