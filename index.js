@@ -5,10 +5,8 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
 import axios from "axios";
-import login from "./API/login.js";
-import createNewUser from "./API/Utils/createNewUser.js";
-import initDatabase from "./API/Utils/initDatabase.js";
-import register from "./API/register.js";
+import initDatabase from "./initDatabase.js";
+import authRoutes from "./API/routes/auth.js";
 /* CONFIGUARATION */
 dotenv.config();
 const app = express();
@@ -27,31 +25,7 @@ app.get("/", async (req, res) => {
 	res.send("Hello World");
 });
 
-app.post("/register", async (req, res) => {
-	const { username, email, password, fullName, gender } = req.body;
-	console.log(req.body);
-	try {
-		await register(username, email, password, fullName, gender);
-		res.send("Register successfully");
-	} catch (err) {
-		console.log(err.message);
-		res.status(400).send(err.message);
-		return;
-	}
-});
-
-app.post("/login", async (req, res) => {
-	const { username, password } = req.body;
-	console.log(req.body);
-	try {
-		await login(username, password);
-		res.send("Login successfully");
-	} catch (err) {
-		console.log(err.message);
-		res.status(400).send(err.message);
-		return;
-	}
-});
+app.use("/api/auth", authRoutes);
 
 /* SERVER */
 app.listen(port, async () => {

@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS user_react_comment, user_react_post, comments, posts, user_
 
 CREATE TABLE IF NOT EXISTS users (
 	id INTEGER UNIQUE NOT NULL,
-    passWordHash VARCHAR(100) NOT NULL,
+    passwordHash VARCHAR(100) NOT NULL,
     userName VARCHAR(100) NOT NULL,
     profilePicture VARCHAR(1000),
     fullName VARCHAR(100),

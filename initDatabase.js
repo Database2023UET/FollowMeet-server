@@ -1,4 +1,4 @@
-import pool from "../database.js";
+import pool from "./API/database.js";
 import fs from "fs";
 
 export default async function initDatabase() {
