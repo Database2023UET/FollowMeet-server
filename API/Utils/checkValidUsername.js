@@ -21,5 +21,4 @@ export default async function checkValidUsername(username) {
     if (/[0-9]/.test(username[0])) {
         throw new Error("Username must not start with number");
     }
-    return true;
 }

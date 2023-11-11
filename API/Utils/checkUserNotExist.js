@@ -2,5 +2,5 @@ import pool from "../database.js";
 
 export default async function checkUserExist(username) {
     const [rows, fields] = await pool.query(`SELECT * FROM users WHERE username = '${username}'`);
-    if (rows.length === 0) throw new Error("User does not exist");
+    if (rows.length === 1) throw new Error("User already exists");
 }
