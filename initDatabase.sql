@@ -1,82 +1,64 @@
-DROP TABLE IF EXISTS user_react_comment, user_react_post, comments, posts, user_friend, follow, users;
+DROP TABLE IF EXISTS users, user_follow_user, posts, comments, user_react_comment, user_react_post;
 
-CREATE TABLE IF NOT EXISTS users (
-	id INTEGER UNIQUE NOT NULL,
-    passwordHash VARCHAR(100) NOT NULL,
-    userName VARCHAR(100) NOT NULL,
+CREATE TABLE users
+(
+    id             INTEGER UNIQUE      NOT NULL,
+    passWordHash   VARCHAR(100)        NOT NULL,
+    userName       VARCHAR(100) UNIQUE NOT NULL,
     profilePicture VARCHAR(1000),
-    fullName VARCHAR(100),
-    email VARCHAR(100),
-    gender BOOL,
-    lastLogin TIMESTAMP,
-    createdAt TIMESTAMP,
+    coverPicture   VARCHAR(1000),
+    fullName       VARCHAR(100),
+    email          VARCHAR(100),
+    gender         BOOL,
+    bio            VARCHAR(1000),
+    lastLogout     TIMESTAMP,
+    isOnline       BOOL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS follow (
-	userSourceId INTEGER NOT NULL,
+CREATE TABLE user_follow_user
+(
+    userSourceId INTEGER NOT NULL,
     userTargetId INTEGER NOT NULL,
-    createdAt TIMESTAMP 
+    FOREIGN KEY (userSourceId) REFERENCES users (id),
+    FOREIGN KEY (userTargetId) REFERENCES users (id)
 );
 
-CREATE TABLE IF NOT EXISTS user_friend (
-	userSourceId INTEGER NOT NULL,
-    userTargetId INTEGER NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS user_react_post (
-	postId INTEGER NOT NULL,
-    userId INTEGER NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS posts (
-	id INTEGER UNIQUE NOT NULL,
-    ownerId INTEGER NOT NULL,
-    contentImg VARCHAR (1000),
+CREATE TABLE posts
+(
+    id          INTEGER UNIQUE NOT NULL,
+    ownerId     INTEGER        NOT NULL,
+    contentImg  VARCHAR(1000),
     contentText VARCHAR(1000),
-    createdAt TIMESTAMP,
-    PRIMARY KEY (id)
+    createdAt   TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (ownerId) REFERENCES users (id)
 );
 
-CREATE TABLE IF NOT EXISTS comments (
-	id INTEGER UNIQUE NOT NULL,
-    ownerId INTEGER NOT NULL,
+CREATE TABLE comments
+(
+    id          INTEGER UNIQUE NOT NULL,
+    ownerId     INTEGER        NOT NULL,
+    postId      INTEGER        NOT NULL,
+    contentText VARCHAR(1000)  NOT NULL,
+    createAt    TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (postId) REFERENCES posts (id),
+    FOREIGN KEY (ownerId) REFERENCES users (id)
+);
+
+CREATE TABLE user_react_post
+(
     postId INTEGER NOT NULL,
-    contentText VARCHAR(1000) NOT NULL,
-    PRIMARY KEY (id)
+    userId INTEGER NOT NULL,
+    FOREIGN KEY (userId) REFERENCES users (id),
+    FOREIGN KEY (postId) REFERENCES posts (id)
 );
 
-CREATE TABLE IF NOT EXISTS user_react_comment (
-	userId INTEGER NOT NULL,
-    commentId INTEGER NOT NULL
+CREATE TABLE user_react_comment
+(
+    userId    INTEGER NOT NULL,
+    commentId INTEGER NOT NULL,
+    FOREIGN KEY (commentId) REFERENCES comments (id),
+    FOREIGN KEY (userId) REFERENCES users (id)
 );
-
-ALTER TABLE user_friend
-ADD FOREIGN KEY (userTargetId) REFERENCES users(id);
-
-ALTER TABLE user_friend
-ADD FOREIGN KEY (userSourceId) REFERENCES users(id);
-
-ALTER TABLE user_react_post
-ADD FOREIGN KEY (userId) REFERENCES users(id);
-
-ALTER TABLE user_react_post
-ADD FOREIGN KEY (postId) REFERENCES posts(id);
-
-ALTER TABLE follow
-ADD FOREIGN KEY (userSourceId) REFERENCES users(id);
-
-ALTER TABLE follow
-ADD FOREIGN KEY (userTargetId) REFERENCES users(id);
-
-ALTER TABLE comments
-ADD FOREIGN KEY (id) REFERENCES posts(id);
-
-ALTER TABLE user_react_comment
-ADD FOREIGN KEY (commentId) REFERENCES comments(id);
-
-ALTER TABLE user_react_comment
-ADD FOREIGN KEY (userId) REFERENCES users(id);
-
-ALTER TABLE posts
-ADD FOREIGN KEY (ownerId) REFERENCES users(id);
