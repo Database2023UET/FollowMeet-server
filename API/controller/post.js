@@ -6,10 +6,12 @@ export const getPosts = async (req, res) => {
             throw new Error("User is not exist");
         }
         const userID = user[0].id;
-        const command = 'SELECT * FROM posts INNER JOIN user_follow_user ON posts.ownerId = user_follow_user.userTargetId WHERE user_follow_user.userSourceId = (?);'
+        let command = 'SELECT * FROM posts INNER JOIN user_follow_user ON posts.ownerId = user_follow_user.userTargetId WHERE user_follow_user.userSourceId = (?);'
         const [posts, fields2] = await pool.query(command, [userID]);
-        posts.forEach(element => {
-            
+        posts.forEach(async (element) => {
+            command = 'SELECT u.userName, u.profilePicture FROM user_react_post INNER JOIN users AS u on user_react_post.userId = u.id where user_react_post.postId = (?);';
+            const [users, fields3] = await pool.query(command, [element.id]);
+            element.users = users;
         });
         res.send(posts);
     } catch (err) {
