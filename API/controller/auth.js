@@ -9,13 +9,15 @@ import checkUserNotExist from "../Utils/checkUserNotExist.js";
 
 export const login = async (req, res) => {
     const { username, password } = req.body;
-    console.log(req.body);
     try {
         const [user, fields] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
         if (user.length === 0) {
             throw new Error("User is not exist");
         }
-        const passwordHash = user[0].passwordHash;
+        console.log(user[0]);
+        const passwordHash = user[0].passWordHash;
+        console.log(passwordHash);
+        console.log(password);
         if (!(await argon2.verify(passwordHash, password))) {
             throw new Error("Wrong password or username");
         }
@@ -23,7 +25,7 @@ export const login = async (req, res) => {
         // const token = jwt.sign({ username: username }, process.env.JWT_SECRET);
         // res.cookie("token", token, { httpOnly: true });
 
-        res.send("Login successfully");
+        res.send(user[0].id.toString());
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -54,7 +56,7 @@ export const register = async (req, res) => {
             new Date(),
         ];
         await pool.query(
-            "INSERT INTO users (id, passwordHash, userName, fullName, email, gender, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO users (id, passwordHash, userName, fullName, email, gender) VALUES (?, ?, ?, ?, ?, ?)",
             data);
         res.send("Register successfully");
     } catch (err) {
