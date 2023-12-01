@@ -9,6 +9,8 @@ import initDatabase from "./initDatabase.js";
 import authRoutes from "./API/routes/auth.js";
 import postRoutes from "./API/routes/post.js";
 import commentRoutes from "./API/routes/comment.js";
+import userRoutes from "./API/routes/user.js";
+
 /* CONFIGUARATION */
 dotenv.config();
 const app = express();
@@ -30,6 +32,7 @@ app.get("/", async (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
+app.use("/api/user", userRoutes);
 
 /* SERVER */
 app.listen(port, async () => {
