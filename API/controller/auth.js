@@ -30,6 +30,7 @@ export const login = async (req, res) => {
 
     res.send(user[0].id.toString());
   } catch (err) {
+    console.error(err.message);
     res.status(500).send(err.message);
   }
 };
@@ -52,13 +53,13 @@ export const register = async (req, res) => {
       id,
       passwordHash,
       username,
+      "https://imgur.com/6VBx3io",
       fullName,
       email,
       gender,
-      new Date(),
     ];
     await pool.query(
-      "INSERT INTO users (id, passwordHash, userName, fullName, email, gender) VALUES (?, ?, ?, ?, ?, ?)",
+      "INSERT INTO users (id, passwordHash, userName, profilePicture, fullName, email, gender) VALUES (?, ?, ?, ?, ?, ?, ?)",
       data
     );
     res.send("Register successfully");

@@ -9,7 +9,7 @@ export const getUserInfos = async (req, res) => {
   const { userId } = req.body;
   try {
     const command = "SELECT * FROM users WHERE id = ?";
-    const [users] = await pool.query(command, [userId]);
+    const [users, fields] = await pool.query(command, [userId]);
     users.forEach((element) => {
       delete element.passWordHash;
     });

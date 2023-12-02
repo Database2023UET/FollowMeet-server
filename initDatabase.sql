@@ -7,11 +7,12 @@ CREATE TABLE users
     userName       VARCHAR(100) UNIQUE NOT NULL,
     profilePicture VARCHAR(1000),
     coverPicture   VARCHAR(1000),
-    fullName       VARCHAR(100),
+    fullName       VARCHAR(100)        NOT NULL,
     email          VARCHAR(100),
-    gender         BOOL,
+    gender         BOOL                NOT NULL,
     bio            VARCHAR(1000),
     lastLogout     TIMESTAMP,
+    createdAt      TIMESTAMP           NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
 
@@ -19,6 +20,7 @@ CREATE TABLE user_follow_user
 (
     userSourceId INTEGER NOT NULL,
     userTargetId INTEGER NOT NULL,
+    PRIMARY KEY (userSourceId, userTargetId),
     FOREIGN KEY (userSourceId) REFERENCES users (id),
     FOREIGN KEY (userTargetId) REFERENCES users (id)
 );
@@ -29,7 +31,7 @@ CREATE TABLE posts
     ownerId     INTEGER        NOT NULL,
     contentImg  VARCHAR(1000),
     contentText VARCHAR(1000),
-    createdAt   TIMESTAMP,
+    createdAt   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (ownerId) REFERENCES users (id)
 );
@@ -40,7 +42,7 @@ CREATE TABLE comments
     ownerId     INTEGER        NOT NULL,
     postId      INTEGER        NOT NULL,
     contentText VARCHAR(1000)  NOT NULL,
-    createAt    TIMESTAMP,
+    createAt    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (postId) REFERENCES posts (id),
     FOREIGN KEY (ownerId) REFERENCES users (id)
@@ -50,6 +52,7 @@ CREATE TABLE user_react_post
 (
     postId INTEGER NOT NULL,
     userId INTEGER NOT NULL,
+    PRIMARY KEY (postId, userId),
     FOREIGN KEY (userId) REFERENCES users (id),
     FOREIGN KEY (postId) REFERENCES posts (id)
 );
@@ -58,9 +61,11 @@ CREATE TABLE user_react_comment
 (
     userId    INTEGER NOT NULL,
     commentId INTEGER NOT NULL,
+    PRIMARY KEY (userId, commentId),
     FOREIGN KEY (commentId) REFERENCES comments (id),
     FOREIGN KEY (userId) REFERENCES users (id)
 );
+
 
 insert into users (id, username, email, passWordHash, fullname, gender, lastLogout)
 values (1, "ttb06", NULL, '1', "Tran Tuan Binh", True, NULL),
@@ -70,25 +75,25 @@ values (1, "ttb06", NULL, '1', "Tran Tuan Binh", True, NULL),
        (5, "luongtuan", null, '5', "Luong Anh Tuan", True, null),
        (6, "quangNguyen", null, '6', "Nguyen Van Quang", True, null);
 
-insert into posts (id, ownerId, contentImg, contentText, createdAt)
-values (1, 1, null, "Post 1 của Bình", '2021-01-01;'),
-       (2, 1, null, "Post 2 của Bình", '2022-01-02'),
-       (3, 1, null, "Post 3 của Bình", '2023-01-01'),
-       (4, 2, null, "Post 1 của Vinh", null),
-       (5, 2, null, "Post 2 của Vinh", null),
-       (6, 2, null, "Post 3 của Vinh", null),
-       (7, 3, null, "Post 1 của Việt", null),
-       (8, 3, null, "Post 2 của Việt", null),
-       (9, 3, null, "Post 3 của Việt", null),
-       (10, 4, null, "Post 1 của Kiên", null),
-       (11, 4, null, "Post 2 của Kiên", null),
-       (12, 4, null, "Post 3 của Kiên", null),
-       (13, 5, null, "Post 1 của Tuấn", null),
-       (14, 5, null, "Post 2 của Tuấn", null),
-       (15, 5, null, "Post 3 của Tuấn", null),
-       (16, 6, null, "Post 1 của Quang", null),
-       (17, 6, null, "Post 2 của Quang", null),
-       (18, 6, null, "Post 3 của Quang", null);
+insert into posts (id, ownerId, contentImg, contentText)
+values (1, 1, null, "Post 1 của Bình"),
+       (2, 1, null, "Post 2 của Bình"),
+       (3, 1, null, "Post 3 của Bình"),
+       (4, 2, null, "Post 1 của Vinh"),
+       (5, 2, null, "Post 2 của Vinh"),
+       (6, 2, null, "Post 3 của Vinh"),
+       (7, 3, null, "Post 1 của Việt"),
+       (8, 3, null, "Post 2 của Việt"),
+       (9, 3, null, "Post 3 của Việt"),
+       (10, 4, null, "Post 1 của Kiên"),
+       (11, 4, null, "Post 2 của Kiên"),
+       (12, 4, null, "Post 3 của Kiên"),
+       (13, 5, null, "Post 1 của Tuấn"),
+       (14, 5, null, "Post 2 của Tuấn"),
+       (15, 5, null, "Post 3 của Tuấn"),
+       (16, 6, null, "Post 1 của Quang"),
+       (17, 6, null, "Post 2 của Quang"),
+       (18, 6, null, "Post 3 của Quang");
 
 insert into comments (id, ownerId, postId, contentText)
 values (1, 1, 1, "Bình cmt"),
@@ -205,10 +210,18 @@ values (1, 2),
        (1, 3),
        (1, 4);
 
-insert into user_follow_user (userSourceId, userTargetId)
-values (1, 5);
-
-insert into user_react_post (postId, userId)
-values (4, 1), 
-       (5, 1),
-       (4, 3);
+insert into user_react_post (userId, postId)
+values (1, 1),
+       (1, 2),
+       (1, 3),
+       (1, 4),
+       (1, 5),
+       (1, 6),
+       (2, 1),
+       (2, 2),
+       (2, 3),
+       (2, 4),
+       (2, 5),
+       (2, 6);
+insert into user_react_post (userId, postId)
+values (4, 2);
