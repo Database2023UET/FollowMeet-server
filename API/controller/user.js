@@ -6,7 +6,7 @@ import pool from "../database.js";
  * @returns object of user
  */
 export const getUserInfos = async (req, res) => {
-  const { userId } = req.body;
+  const { userId } = req.query;
   console.log(userId);
   try {
     const command = "SELECT * FROM users WHERE id = ?";

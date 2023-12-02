@@ -3,6 +3,6 @@ import express from 'express';
 
 const router = express.Router();
 
-router.post('/getUserInfos', getUserInfos);
+router.get('/getUserInfos', getUserInfos);
 
 export default router;
