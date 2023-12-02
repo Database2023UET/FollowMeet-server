@@ -52,7 +52,7 @@ export const register = async (req, res) => {
       id,
       passwordHash,
       username,
-      "https://imgur.com/6VBx3io.png",
+      "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg",
       fullName,
       email,
       gender,
