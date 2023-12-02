@@ -92,7 +92,7 @@ values (
         "Tran Tuan Binh",
         True,
         NULL,
-        "https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg",
+        "https://www.svgrepo.com/show/442075/avatar-default-symbolic.svg",
         "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233"
     ), (
         2,
@@ -102,7 +102,7 @@ values (
         "Hoang Cong Vinh",
         True,
         NULL,
-        "https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg",
+        "https://www.svgrepo.com/show/442075/avatar-default-symbolic.svg",
         "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233"
     ), (
         3,
@@ -112,7 +112,7 @@ values (
         "Hoang Quoc Viet",
         True,
         null,
-        "https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg",
+        "https://www.svgrepo.com/show/442075/avatar-default-symbolic.svg",
         "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233"
     ), (
         4,
@@ -122,7 +122,7 @@ values (
         "Nguyen Duc Kien",
         True,
         null,
-        "https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg",
+        "https://www.svgrepo.com/show/442075/avatar-default-symbolic.svg",
         "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233"
     ), (
         5,
@@ -132,7 +132,7 @@ values (
         "Luong Anh Tuan",
         True,
         null,
-        "https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg",
+        "https://www.svgrepo.com/show/442075/avatar-default-symbolic.svg",
         "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233"
     ), (
         6,
@@ -142,7 +142,7 @@ values (
         "Nguyen Van Quang",
         True,
         null,
-        "https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg",
+        "https://www.svgrepo.com/show/442075/avatar-default-symbolic.svg",
         "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233"
     );
 
