@@ -7,13 +7,13 @@ import pool from "../database.js";
  */
 export const getUserInfos = async (req, res) => {
   const { userId } = req.body;
+  console.log(userId);
   try {
     const command = "SELECT * FROM users WHERE id = ?";
     const [users, fields] = await pool.query(command, [userId]);
     users.forEach((element) => {
       delete element.passWordHash;
     });
-    console.log(users);
     res.send(users[0]);
   } catch (err) {
     res.status(500).send(err.message);

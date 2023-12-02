@@ -68,7 +68,7 @@ CREATE TABLE user_react_comment
 
 
 insert into users (id, username, email, passWordHash, fullname, gender, lastLogout)
-values (1, "ttb06", NULL, '1', "Tran Tuan Binh", True, NULL),
+values (1, "admin", NULL, 'admin', "Tran Tuan Binh", True, NULL),
        (2, "wDrag", NULL, '2', "Hoang Cong Vinh", True, NULL),
        (3, "hqvuet", Null, '3', "Hoang Quoc Viet", True, null),
        (4, "kiennguyen246", True, '4', "Nguyen Duc Kien", True, null),
