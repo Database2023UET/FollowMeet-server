@@ -1,5 +1,4 @@
 import * as argon2 from "argon2";
-import jwt from "jsonwebtoken";
 import pool from "../database.js";
 import checkValidUsername from "../Utils/checkValidUsername.js";
 import checkValidEmail from "../Utils/checkValidEmail.js";
@@ -53,7 +52,7 @@ export const register = async (req, res) => {
       id,
       passwordHash,
       username,
-      "https://imgur.com/6VBx3io",
+      "https://imgur.com/6VBx3io.png",
       fullName,
       email,
       gender,
