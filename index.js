@@ -10,6 +10,8 @@ import authRoutes from "./API/routes/auth.js";
 import postRoutes from "./API/routes/post.js";
 import commentRoutes from "./API/routes/comment.js";
 import userRoutes from "./API/routes/user.js";
+import followRoutes from "./API/routes/follow.js";
+import reactRoutes from "./API/routes/react.js";
 
 /* CONFIGUARATION */
 dotenv.config();
@@ -33,12 +35,14 @@ app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/follow", followRoutes);
+app.use("/api/react", reactRoutes);
 
 /* SERVER */
 app.listen(port, async () => {
 	try {
 		await initDatabase();
-	} catch(err) {
+	} catch (err) {
 		console.log(err.message);
 		return;
 	}

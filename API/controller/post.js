@@ -1,15 +1,15 @@
 import pool from "../database.js";
 
 export const getPostsUserFollowing = async (req, res) => {
-  const { userId } = req.query;
-  try {
-    let command =
-      "SELECT * FROM posts INNER JOIN user_follow_user ON posts.ownerId = user_follow_user.userTargetId WHERE user_follow_user.userSourceId = (?);";
-    const [posts, fields2] = await pool.query(command, [userId]);
-    res.send(posts);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
+	const { userId } = req.query;
+	try {
+		let command =
+			"SELECT * FROM posts INNER JOIN user_follow_user ON posts.ownerId = user_follow_user.userTargetId WHERE user_follow_user.userSourceId = (?);";
+		const [posts, fields2] = await pool.query(command, [userId]);
+		res.send(posts);
+	} catch (err) {
+		res.status(500).send(err.message);
+	}
 };
 
 // export const getPostsOfUser = async (req, res) => {
@@ -30,18 +30,18 @@ export const getPostsUserFollowing = async (req, res) => {
 // }
 
 export const addPost = async (req, res) => {
-  const { userId, contentImg, contentText } = req.body;
-  try {
-    const result = await pool.query(
-      "SELECT MIN(id + 1) as missing_id FROM posts WHERE id + 1 NOT IN (SELECT id FROM posts)"
-    );
-    const newPostId = result[0][0].missing_id;
-    const data = [newPostId, userId, contentImg, contentText, new Date()];
-    const command =
-      "INSERT INTO posts (id, ownerId, contentImg, contentText, createdAt) VALUES (?, ?, ?, ?, ?)";
-    await pool.query(command, data);
-    res.send("Post added successfully");
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
+	const { userId, contentImg, contentText } = req.body;
+	try {
+		const result = await pool.query(
+			"SELECT MIN(id + 1) as missing_id FROM posts WHERE id + 1 NOT IN (SELECT id FROM posts)"
+		);
+		const newPostId = result[0][0].missing_id;
+		const data = [newPostId, userId, contentImg, contentText, new Date()];
+		const command =
+			"INSERT INTO posts (id, ownerId, contentImg, contentText, createdAt) VALUES (?, ?, ?, ?, ?)";
+		await pool.query(command, data);
+		res.send("Post added successfully");
+	} catch (err) {
+		res.status(500).send(err.message);
+	}
 };
