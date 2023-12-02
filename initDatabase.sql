@@ -117,7 +117,7 @@ values (
     ), (
         4,
         "kiennguyen246",
-        True,
+        NULL,
         '4',
         "Nguyen Duc Kien",
         True,

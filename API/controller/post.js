@@ -1,7 +1,7 @@
 import pool from "../database.js";
 
 export const getPostsUserFollowing = async (req, res) => {
-  const { userId } = req.body;
+  const { userId } = req.query;
   try {
     let command =
       "SELECT * FROM posts INNER JOIN user_follow_user ON posts.ownerId = user_follow_user.userTargetId WHERE user_follow_user.userSourceId = (?);";
