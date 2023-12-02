@@ -1,9 +1,37 @@
 import pool from "../database.js";
 
+export const getReacts = async (req, res) => {
+  const { postId } = req.query;
+  try {
+    let command = "SELECT * FROM user_react_post WHERE postId = (?);";
+    const [reacts, fields] = await pool.query(command, [postId]);
+    res.send(reacts.length.toString());
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
+export const isReacted = async (req, res) => {
+  const { postId, userId } = req.query;
+  try {
+    let command =
+      "SELECT * FROM user_react_post WHERE postId = (?) AND userId = (?);";
+    const [users, fields] = await pool.query(command, [postId, userId]);
+    if (users.length > 0) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
 export const reactPost = async (req, res) => {
   const { postId, userId } = req.body;
   try {
-    let command = "SELECT * FROM user_react_post WHERE postId = (?) AND userId = (?);";
+    let command =
+      "SELECT * FROM user_react_post WHERE postId = (?) AND userId = (?);";
     const [users, fields] = await pool.query(command, [postId, userId]);
     if (users.length > 0) {
       throw new Error("User is already reacted");
@@ -19,12 +47,14 @@ export const reactPost = async (req, res) => {
 export const unreactPost = async (req, res) => {
   const { postId, userId } = req.body;
   try {
-    let command = "SELECT * FROM user_react_post WHERE postId = (?) AND userId = (?) ;";
+    let command =
+      "SELECT * FROM user_react_post WHERE postId = (?) AND userId = (?) ;";
     const [users, fields] = await pool.query(command, [postId, userId]);
     if (users.length === 0) {
-        throw new Error("User is not reacted");
+      throw new Error("User is not reacted");
     }
-    command = "DELETE FROM user_react_post WHERE userId = (?) AND postId = (?);";
+    command =
+      "DELETE FROM user_react_post WHERE postId = (?) AND userId = (?);";
     await pool.query(command, [postId, userId]);
     res.send("Unreact successfully");
   } catch (err) {
