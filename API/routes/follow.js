@@ -1,8 +1,9 @@
 import Express from "express";
-import { followUser, unfollowUser } from "../controller/follow.js";
+import { followUser, isFollowed, unfollowUser } from "../controller/follow.js";
 
 const router = Express.Router();
 
+router.get("/isFollowed", isFollowed);
 router.post("/followUser", followUser);
 router.post("/unfollowUser", unfollowUser);
 
