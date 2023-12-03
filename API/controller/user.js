@@ -49,8 +49,11 @@ export const suggestUser = async (req, res) => {
   const { userId } = req.query;
   try {
     let command =
-      "SELECT * FROM users WHERE id != (?) ORDER BY RAND() LIMIT 3;";
+      "select * from users left join user_follow_user as ufu on users.id = ufu.userTargetId where ufu.userTargetId is null and users.id != ? order by rand() limit 3;";
     const [users, fields] = await pool.query(command, [userId]);
+    users.forEach((element) => {
+      delete element.passWordHash;
+    });
     res.send(users);
   } catch (err) {
     res.status(500).send(err.message);
