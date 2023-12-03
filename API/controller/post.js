@@ -1,3 +1,4 @@
+import e from "express";
 import pool from "../database.js";
 
 export const getPostsUserFollowing = async (req, res) => {
@@ -6,7 +7,13 @@ export const getPostsUserFollowing = async (req, res) => {
     let command =
       "SELECT * FROM posts INNER JOIN user_follow_user ON posts.ownerId = user_follow_user.userTargetId WHERE user_follow_user.userSourceId = (?);";
     const [posts, fields2] = await pool.query(command, [userId]);
-    res.send(posts);
+    if (posts.length === 0) {
+      let command = "SELECT * FROM posts WHERE ownerId != (?);";
+      const [posts, fields2] = await pool.query(command, [userId]);
+      res.send(posts);
+    } else {
+      res.send(posts);
+    }
   } catch (err) {
     res.status(500).send(err.message);
   }
