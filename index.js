@@ -28,7 +28,7 @@ app.use(cors());
 
 /* ROUTES */
 app.get("/", async (req, res) => {
-	res.send("Hello World");
+  res.send("Hello World");
 });
 
 app.use("/api/auth", authRoutes);
@@ -40,11 +40,11 @@ app.use("/api/react", reactRoutes);
 
 /* SERVER */
 app.listen(port, async () => {
-	try {
-		await initDatabase();
-	} catch (err) {
-		console.log(err.message);
-		return;
-	}
-	console.log(`Server is listening on port ${port}`);
+  try {
+    await initDatabase();
+  } catch (err) {
+    console.log(err.message);
+    return;
+  }
+  console.log(`Server is listening on port ${port}`);
 });
