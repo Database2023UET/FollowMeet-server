@@ -53,12 +53,13 @@ export const register = async (req, res) => {
       passwordHash,
       username,
       "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg",
+      "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233",
       fullName,
       email,
       gender,
     ];
     await pool.query(
-      "INSERT INTO users (id, passwordHash, userName, profilePicture, fullName, email, gender) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO users (id, passwordHash, userName, profilePicture, coverPicture, fullName, email, gender) VALUES (?, ?, ?, ?, ?, ?, ?)",
       data
     );
     res.send("Register successfully");
