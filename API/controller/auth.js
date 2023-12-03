@@ -59,7 +59,7 @@ export const register = async (req, res) => {
       gender,
     ];
     await pool.query(
-      "INSERT INTO users (id, passwordHash, userName, profilePicture, coverPicture, fullName, email, gender) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO users (id, passwordHash, userName, profilePicture, coverPicture, fullName, email, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       data
     );
     res.send("Register successfully");
