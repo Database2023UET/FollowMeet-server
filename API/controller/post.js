@@ -10,8 +10,14 @@ export const getPostsUserFollowing = async (req, res) => {
     if (posts.length === 0) {
       let command = "SELECT * FROM posts WHERE ownerId != (?);";
       const [posts, fields2] = await pool.query(command, [userId]);
+      posts.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
       res.send(posts);
     } else {
+      posts.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
       res.send(posts);
     }
   } catch (err) {

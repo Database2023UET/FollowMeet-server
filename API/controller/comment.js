@@ -5,7 +5,21 @@ export const getComments = async (req, res) => {
   try {
     let command = "SELECT * FROM comments WHERE postId = (?);";
     const [comments, fields] = await pool.query(command, [postId]);
+    await comments.sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
     res.send(comments);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
+export const getNumComments = async (req, res) => {
+  const { postId } = req.query;
+  try {
+    let command = "SELECT * FROM comments WHERE postId = (?);";
+    const [comments, fields] = await pool.query(command, [postId]);
+    res.send(comments.length.toString());
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -19,7 +33,7 @@ export const addComment = async (req, res) => {
     );
     const newCommentId = result[0][0].missing_id;
     const data = [newCommentId, userId, postId, contentText, new Date()];
-    let command = "INSERT INTO comments VALUES (?, ?, ?, ?, ?);";
+    let command = "INSERT INTO comments (id, ownerId, postId, contentText, createdAt) VALUES (?, ?, ?, ?, ?);";
     await pool.query(command, data);
     res.send("Add comment successfully");
   } catch (err) {

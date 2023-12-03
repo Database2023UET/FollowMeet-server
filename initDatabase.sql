@@ -6,78 +6,81 @@ DROP TABLE
     user_react_comment,
     user_react_post;
 
-CREATE TABLE
-    users (
-        id INTEGER UNIQUE NOT NULL,
-        passWordHash VARCHAR(100) NOT NULL,
-        userName VARCHAR(100) UNIQUE NOT NULL,
-        profilePicture VARCHAR(1000),
-        coverPicture VARCHAR(1000),
-        fullName VARCHAR(100) NOT NULL,
-        email VARCHAR(100),
-        gender BOOL NOT NULL,
-        bio VARCHAR(1000),
-        lastLogout TIMESTAMP,
-        createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (id)
-    );
+CREATE TABLE users
+(
+    id             INTEGER UNIQUE      NOT NULL,
+    passwordHash   VARCHAR(100)        NOT NULL,
+    username       VARCHAR(100) UNIQUE NOT NULL,
+    profilePicture VARCHAR(1000),
+    coverPicture   VARCHAR(1000),
+    fullName       VARCHAR(100)        NOT NULL,
+    email          VARCHAR(100)        NOT NULL,
+    gender         BOOL                NOT NULL,
+    bio            VARCHAR(1000),
+    lastLogout     TIMESTAMP,
+    createdAt      TIMESTAMP           NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deletedAt      TIMESTAMP,
+    PRIMARY KEY (id)
+);
 
-CREATE TABLE
-    user_follow_user (
-        userSourceId INTEGER NOT NULL,
-        userTargetId INTEGER NOT NULL,
-        PRIMARY KEY (userSourceId, userTargetId),
-        FOREIGN KEY (userSourceId) REFERENCES users (id),
-        FOREIGN KEY (userTargetId) REFERENCES users (id)
-    );
+CREATE TABLE user_follow_user
+(
+    userSourceId INTEGER NOT NULL,
+    userTargetId INTEGER NOT NULL,
+    PRIMARY KEY (userSourceId, userTargetId),
+    FOREIGN KEY (userSourceId) REFERENCES users (id),
+    FOREIGN KEY (userTargetId) REFERENCES users (id)
+);
 
-CREATE TABLE
-    posts (
-        id INTEGER UNIQUE NOT NULL,
-        ownerId INTEGER NOT NULL,
-        contentImg VARCHAR(1000),
-        contentText VARCHAR(1000),
-        createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (id),
-        FOREIGN KEY (ownerId) REFERENCES users (id)
-    );
+CREATE TABLE posts
+(
+    id          INTEGER UNIQUE NOT NULL,
+    ownerId     INTEGER        NOT NULL,
+    contentImg  VARCHAR(1000),
+    contentText VARCHAR(1000),
+    createdAt   TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deletedAt   TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (ownerId) REFERENCES users (id)
+);
 
-CREATE TABLE
-    comments (
-        id INTEGER UNIQUE NOT NULL,
-        ownerId INTEGER NOT NULL,
-        postId INTEGER NOT NULL,
-        contentText VARCHAR(1000) NOT NULL,
-        createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (id),
-        FOREIGN KEY (postId) REFERENCES posts (id),
-        FOREIGN KEY (ownerId) REFERENCES users (id)
-    );
+CREATE TABLE comments
+(
+    id          INTEGER UNIQUE NOT NULL,
+    ownerId     INTEGER        NOT NULL,
+    postId      INTEGER        NOT NULL,
+    contentText VARCHAR(1000)  NOT NULL,
+    createdAt    TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deletedAt   TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (postId) REFERENCES posts (id),
+    FOREIGN KEY (ownerId) REFERENCES users (id)
+);
 
-CREATE TABLE
-    user_react_post (
-        postId INTEGER NOT NULL,
-        userId INTEGER NOT NULL,
-        PRIMARY KEY (postId, userId),
-        FOREIGN KEY (userId) REFERENCES users (id),
-        FOREIGN KEY (postId) REFERENCES posts (id)
-    );
+CREATE TABLE user_react_post
+(
+    postId INTEGER NOT NULL,
+    userId INTEGER NOT NULL,
+    PRIMARY KEY (postId, userId),
+    FOREIGN KEY (userId) REFERENCES users (id),
+    FOREIGN KEY (postId) REFERENCES posts (id)
+);
 
-CREATE TABLE
-    user_react_comment (
-        userId INTEGER NOT NULL,
-        commentId INTEGER NOT NULL,
-        PRIMARY KEY (userId, commentId),
-        FOREIGN KEY (commentId) REFERENCES comments (id),
-        FOREIGN KEY (userId) REFERENCES users (id)
-    );
+CREATE TABLE user_react_comment
+(
+    userId    INTEGER NOT NULL,
+    commentId INTEGER NOT NULL,
+    PRIMARY KEY (userId, commentId),
+    FOREIGN KEY (commentId) REFERENCES comments (id),
+    FOREIGN KEY (userId) REFERENCES users (id)
+);
 
 insert into
     users (
         id,
         username,
         email,
-        passWordHash,
+        passwordHash,
         fullname,
         gender,
         lastLogout,
@@ -87,7 +90,7 @@ insert into
 values (
         1,
         "admin",
-        NULL,
+        "admin@gmail.com",
         'admin',
         "Tran Tuan Binh",
         True,
@@ -97,7 +100,7 @@ values (
     ), (
         2,
         "wDrag",
-        NULL,
+        "wDrag@gmail.com",
         '2',
         "Hoang Cong Vinh",
         True,
@@ -107,7 +110,7 @@ values (
     ), (
         3,
         "hqvuet",
-        Null,
+        "hqvuet@gmail.com",
         '3',
         "Hoang Quoc Viet",
         True,
@@ -117,7 +120,7 @@ values (
     ), (
         4,
         "kiennguyen246",
-        NULL,
+        "kiennguyen246@gmail.com",
         '4',
         "Nguyen Duc Kien",
         True,
@@ -127,7 +130,7 @@ values (
     ), (
         5,
         "luongtuan",
-        null,
+        "luongtuan@gmail.com",
         '5',
         "Luong Anh Tuan",
         True,
@@ -137,7 +140,7 @@ values (
     ), (
         6,
         "quangNguyen",
-        null,
+        "quangnguyen@gmail.com",
         '6',
         "Nguyen Van Quang",
         True,

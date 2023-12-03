@@ -17,7 +17,7 @@ export const login = async (req, res) => {
       throw new Error("User is not exist");
     }
     console.log(user[0]);
-    const passwordHash = user[0].passWordHash;
+    const passwordHash = user[0].passwordHash;
     console.log(passwordHash);
     console.log(password);
     if (!(await argon2.verify(passwordHash, password))) {
@@ -59,7 +59,7 @@ export const register = async (req, res) => {
       gender,
     ];
     await pool.query(
-      "INSERT INTO users (id, passwordHash, userName, profilePicture, coverPicture, fullName, email, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO users (id, passwordHash, username, profilePicture, coverPicture, fullName, email, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       data
     );
     res.send("Register successfully");
