@@ -16,17 +16,18 @@ export const login = async (req, res) => {
     if (user.length === 0) {
       throw new Error("User is not exist");
     }
-    console.log(user[0]);
     const passwordHash = user[0].passwordHash;
-    console.log(passwordHash);
-    console.log(password);
     if (!(await argon2.verify(passwordHash, password))) {
       throw new Error("Wrong password or username");
     }
 
     // const token = jwt.sign({ username: username }, process.env.JWT_SECRET);
     // res.cookie("token", token, { httpOnly: true });
-
+    //update last logout to 1000 years later
+    await pool.query("UPDATE users SET lastLogout = ? WHERE username = ?", [
+      new Date("2100-01-11 08:00:00"),
+      username,
+    ]);
     res.send(user[0].id.toString());
   } catch (err) {
     console.error(err.message);
@@ -36,7 +37,6 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   const { username, email, password, fullName, gender } = req.body;
-  console.log(req.body);
   try {
     // check valid
     await checkValidUsername(username);
