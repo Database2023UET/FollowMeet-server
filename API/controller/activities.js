@@ -18,7 +18,7 @@ export const getLatestActivities = async (req, res) => {
     
     UNION ALL
     
-    SELECT c.id as postId, c.ownerId as userId, c.createdAt, 'comment' as activity_type
+    SELECT c.id as postId, c.ownerId as userId, c.createdAt, c.deletedAt, 'comment' as activity_type
     FROM comments AS c
     JOIN posts AS p ON c.postId = p.id
     WHERE p.ownerId = (?) and c.ownerId != (?)

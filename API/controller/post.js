@@ -48,3 +48,28 @@ export const addPost = async (req, res) => {
     res.status(500).send(err.message);
   }
 };
+
+export const deletePost = async (req, res) => {
+  const { postId, userId } = req.body;
+  try {
+    // check if the user is the owner of the post
+    const command0 =
+      "SELECT * FROM posts WHERE id = (?) and ownerId = (?) and deletedAt is null;";
+    const [posts, fields] = await pool.query(command0, [postId, userId]);
+    if (posts.length === 0) {
+      throw new Error("You are not the owner of this post");
+    }
+    const command = `update posts set deletedAt = CURRENT_TIMESTAMP where id = (?);`;
+    const data = [postId];
+    await pool.query(command, data);
+    const command2 = `update comments set deletedAt = CURRENT_TIMESTAMP where postId =(?);`;
+    await pool.query(command2, data);
+    const command3 = `update user_react_post set deletedAt = CURRENT_TIMESTAMP where postId = (?);`;
+    await pool.query(command3, data);
+    const command4 = `update user_react_comment set deletedAt = CURRENT_TIMESTAMP where commentId in (select id from comments where postId = (?));`;
+    await pool.query(command4, data);
+    res.send("Post deleted successfully");
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};

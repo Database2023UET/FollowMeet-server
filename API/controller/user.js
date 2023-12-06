@@ -33,7 +33,8 @@ export const getUserInfos = async (req, res) => {
 export const getUserIdByUsername = async (req, res) => {
   const { username } = req.query;
   try {
-    const command = "SELECT * FROM users WHERE username = ? and deletedAt is null";
+    const command =
+      "SELECT * FROM users WHERE username = ? and deletedAt is null";
     const [users, fields] = await pool.query(command, [username]);
     if (users.length === 0) {
       throw new Error("Username is not exist");
@@ -77,6 +78,7 @@ export const updateInfo = async (req, res) => {
   const userId = req.body.userId;
   const username = req.body.username;
   const fullName = req.body.fullName;
+  const bio = req.body.bio;
   const email = req.body.email;
   try {
     if (username) await checkValidUsername(username);
@@ -85,7 +87,8 @@ export const updateInfo = async (req, res) => {
     let command = "UPDATE users SET ";
     let data = [];
     if (username) {
-      let subCommand = "SELECT * FROM users WHERE username = ? and deletedAt is null";
+      let subCommand =
+        "SELECT * FROM users WHERE username = ? and deletedAt is null";
       const [res, fields] = await pool.query(subCommand, [username]);
       if (res.length !== 0) {
         throw new Error("Username is already exist");
@@ -96,6 +99,10 @@ export const updateInfo = async (req, res) => {
     if (fullName) {
       command += "fullName = ?, ";
       data.push(fullName);
+    }
+    if (bio) {
+      command += "bio = ?, ";
+      data.push(bio);
     }
     if (email) {
       command += "email = ?, ";
