@@ -34,13 +34,11 @@ export const getLatestActivities = async (req, res) => {
       element.key = key++;
       if (element.activity_type === "user_follow_user") {
         element.ownerId = element.postId;
-        delete element.postId;
-        delete element.userId;
       } else {
         element.ownerId = element.userId;
-        delete element.postId;
-        delete element.userId;
       }
+      delete element.postId;
+      delete element.userId;
       if (element.activity_type === "user_react_post") {
         element.message = "reacted to your post";
       } else if (element.activity_type === "user_follow_user") {
