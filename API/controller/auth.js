@@ -10,7 +10,7 @@ export const login = async (req, res) => {
   const { username, password } = req.body;
   try {
     const [user, fields] = await pool.query(
-      "SELECT * FROM users WHERE username = ?",
+      "SELECT * FROM users WHERE username = ? and deletedAt is null",
       [username]
     );
     if (user.length === 0) {
@@ -24,7 +24,7 @@ export const login = async (req, res) => {
     // const token = jwt.sign({ username: username }, process.env.JWT_SECRET);
     // res.cookie("token", token, { httpOnly: true });
     //update last logout to 1000 years later
-    await pool.query("UPDATE users SET lastLogout = ? WHERE username = ?", [
+    await pool.query("UPDATE users SET lastLogout = ? WHERE username = ? and deletedAt is null", [
       new Date("3000-01-11 08:00:00"),
       username,
     ]);
@@ -45,7 +45,7 @@ export const register = async (req, res) => {
     await checkValidFullName(fullName);
     await checkUserNotExist(username);
 
-    let result = await pool.query("SELECT COUNT(*) as count FROM users");
+    let result = await pool.query("SELECT COUNT(*) as count FROM users WHERE deletedAt is null");
     let id = result[0][0].count + 1; // id = total number of users + 1
     let passwordHash = await argon2.hash(password);
     const data = [

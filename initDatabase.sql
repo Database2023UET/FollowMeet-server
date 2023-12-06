@@ -28,6 +28,7 @@ CREATE TABLE
         userSourceId INTEGER NOT NULL,
         userTargetId INTEGER NOT NULL,
         createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deletedAt TIMESTAMP,
         PRIMARY KEY (userSourceId, userTargetId),
         FOREIGN KEY (userSourceId) REFERENCES users (id),
         FOREIGN KEY (userTargetId) REFERENCES users (id)
@@ -63,6 +64,7 @@ CREATE TABLE
         postId INTEGER NOT NULL,
         userId INTEGER NOT NULL,
         createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deletedAt TIMESTAMP,
         PRIMARY KEY (postId, userId),
         FOREIGN KEY (userId) REFERENCES users (id),
         FOREIGN KEY (postId) REFERENCES posts (id)
@@ -73,6 +75,7 @@ CREATE TABLE
         userId INTEGER NOT NULL,
         commentId INTEGER NOT NULL,
         createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deletedAt TIMESTAMP,
         PRIMARY KEY (userId, commentId),
         FOREIGN KEY (commentId) REFERENCES comments (id),
         FOREIGN KEY (userId) REFERENCES users (id)
