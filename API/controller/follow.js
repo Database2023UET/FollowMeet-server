@@ -26,8 +26,8 @@ export const followUser = async (req, res) => {
     if (users.length > 0) {
       throw new Error("User is already followed");
     }
-    command = "INSERT INTO user_follow_user VALUES (?, ?);";
-    await pool.query(command, [userId, followingId]);
+    command = "INSERT INTO user_follow_user VALUES (?, ?, ?);";
+    await pool.query(command, [userId, followingId, new Date()]);
     res.send("Follow successfully");
   } catch (err) {
     res.status(500).send(err.message);

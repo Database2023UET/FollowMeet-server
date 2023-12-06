@@ -17,7 +17,7 @@ CREATE TABLE
         email VARCHAR(100) NOT NULL,
         gender BOOL NOT NULL,
         bio VARCHAR(1000),
-        lastLogout DATETIME,
+        lastLogout DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deletedAt TIMESTAMP,
         PRIMARY KEY (id)
@@ -27,6 +27,7 @@ CREATE TABLE
     user_follow_user (
         userSourceId INTEGER NOT NULL,
         userTargetId INTEGER NOT NULL,
+        createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (userSourceId, userTargetId),
         FOREIGN KEY (userSourceId) REFERENCES users (id),
         FOREIGN KEY (userTargetId) REFERENCES users (id)
@@ -61,6 +62,7 @@ CREATE TABLE
     user_react_post (
         postId INTEGER NOT NULL,
         userId INTEGER NOT NULL,
+        createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (postId, userId),
         FOREIGN KEY (userId) REFERENCES users (id),
         FOREIGN KEY (postId) REFERENCES posts (id)
@@ -70,6 +72,7 @@ CREATE TABLE
     user_react_comment (
         userId INTEGER NOT NULL,
         commentId INTEGER NOT NULL,
+        createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (userId, commentId),
         FOREIGN KEY (commentId) REFERENCES comments (id),
         FOREIGN KEY (userId) REFERENCES users (id)
@@ -83,7 +86,6 @@ insert into
         passwordHash,
         fullname,
         gender,
-        lastLogout,
         profilePicture,
         coverPicture
     )
@@ -94,7 +96,6 @@ values (
         'admin',
         "Tran Tuan Binh",
         True,
-        NULL,
         "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg",
         "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233"
     ), (
@@ -104,7 +105,6 @@ values (
         '2',
         "Hoang Cong Vinh",
         True,
-        NULL,
         "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg",
         "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233"
     ), (
@@ -114,7 +114,6 @@ values (
         '3',
         "Hoang Quoc Viet",
         True,
-        null,
         "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg",
         "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233"
     ), (
@@ -124,7 +123,6 @@ values (
         '4',
         "Nguyen Duc Kien",
         True,
-        null,
         "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg",
         "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233"
     ), (
@@ -134,7 +132,6 @@ values (
         '5',
         "Luong Anh Tuan",
         True,
-        null,
         "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg",
         "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233"
     ), (
@@ -144,7 +141,6 @@ values (
         '6',
         "Nguyen Van Quang",
         True,
-        null,
         "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg",
         "https://cdna.artstation.com/p/assets/images/images/020/174/718/large/amarth-chen-9.jpg?1566698233"
     );

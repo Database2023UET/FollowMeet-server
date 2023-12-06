@@ -59,7 +59,7 @@ export const suggestUser = async (req, res) => {
   const { userId } = req.query;
   try {
     let command =
-      "select * from users where users.id not in (select ufu.userTargetId from user_follow_user as ufu) and users.id != 1 order by rand() limit 3;";
+      "select * from users where users.id not in (select ufu.userTargetId from user_follow_user as ufu) and users.id != (?) order by rand() limit 3;";
     const [users, fields] = await pool.query(command, [userId]);
     users.forEach((element) => {
       delete element.passWordHash;

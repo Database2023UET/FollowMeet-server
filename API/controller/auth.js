@@ -25,7 +25,7 @@ export const login = async (req, res) => {
     // res.cookie("token", token, { httpOnly: true });
     //update last logout to 1000 years later
     await pool.query("UPDATE users SET lastLogout = ? WHERE username = ?", [
-      new Date("2100-01-11 08:00:00"),
+      new Date("3000-01-11 08:00:00"),
       username,
     ]);
     res.send(user[0].id.toString());
@@ -69,7 +69,19 @@ export const register = async (req, res) => {
   }
 };
 
-export const logout = async (req, res) => {};
+export const logout = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    await pool.query("UPDATE users SET lastLogout = ? WHERE id = ?", [
+      new Date(),
+      userId,
+    ]);
+    res.send("Logout successfully");
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send(err.message);
+  }
+};
 
 export const test = async (req, res) => {
   res.send("test");

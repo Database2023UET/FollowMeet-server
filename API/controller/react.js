@@ -36,8 +36,8 @@ export const reactPost = async (req, res) => {
     if (users.length > 0) {
       throw new Error("User is already reacted");
     }
-    command = "INSERT INTO user_react_post VALUES (?, ?);";
-    await pool.query(command, [postId, userId]);
+    command = "INSERT INTO user_react_post VALUES (?, ?, ?);";
+    await pool.query(command, [postId, userId, new Date()]);
     res.send("React successfully");
   } catch (err) {
     res.status(500).send(err.message);
