@@ -1,4 +1,7 @@
 import pool from "../database.js";
+import checkValidEmail from "../Utils/checkValidEmail.js";
+import checkValidFullName from "../Utils/checkValidFullName.js";
+import checkValidUsername from "../Utils/checkValidUsername.js";
 
 /**
  * function to get user info
@@ -66,6 +69,47 @@ export const suggestUser = async (req, res) => {
       delete element.passWordHash;
     });
     res.send(users);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
+export const updateInfo = async (req, res) => {
+  const userId = req.body.userId;
+  const username = req.body.username;
+  const name = req.body.name;
+  const email = req.body.email;
+  try {
+    if (username) await checkValidUsername(username);
+    if (email) await checkValidEmail(email);
+    if (name) await checkValidFullName(name);
+    let command = "UPDATE users SET ";
+    let data = [];
+    if (username) {
+      let subCommand = "SELECT * FROM users WHERE username = ?";
+      const [res, fields] = await pool.query(subCommand, [username]);
+      if (res.length !== 0) {
+        throw new Error("Username is already exist");
+      }
+      command += "username = ?, ";
+      data.push(username);
+    }
+    if (name) {
+      command += "name = ?, ";
+      data.push(name);
+    }
+    if (email) {
+      command += "email = ?, ";
+      data.push(email);
+    }
+    command = command.slice(0, -2);
+    command += " WHERE id = ?";
+    data.push(userId);
+    if (data.length === 1) {
+      throw new Error("No data to update");
+    }
+    await pool.query(command, data);
+    res.send("Update successfully");
   } catch (err) {
     res.status(500).send(err.message);
   }
