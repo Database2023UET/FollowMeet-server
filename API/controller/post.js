@@ -5,19 +5,14 @@ export const getPostsUserFollowing = async (req, res) => {
   const { userId } = req.query;
   try {
     let command =
-      "SELECT * FROM posts INNER JOIN user_follow_user ON posts.ownerId = user_follow_user.userTargetId WHERE user_follow_user.userSourceId = (?);";
+      "SELECT * FROM posts INNER JOIN user_follow_user ON posts.ownerId = user_follow_user.userTargetId WHERE user_follow_user.userSourceId = (?) order by posts.createdAt desc;";
     const [posts, fields2] = await pool.query(command, [userId]);
     if (posts.length === 0) {
-      let command = "SELECT * FROM posts WHERE ownerId != (?);";
+      let command =
+        "SELECT * FROM posts WHERE ownerId != (?) order by createdAt desc;";
       const [posts, fields2] = await pool.query(command, [userId]);
-      posts.sort((a, b) => {
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      });
       res.send(posts);
     } else {
-      posts.sort((a, b) => {
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      });
       res.send(posts);
     }
   } catch (err) {
@@ -25,22 +20,17 @@ export const getPostsUserFollowing = async (req, res) => {
   }
 };
 
-// export const getPostsOfUser = async (req, res) => {
-//     const { userId } = req.body;
-//     try {
-//         const userId = user[0].id;
-//         let command = 'SELECT * FROM posts WHERE ownerId = (?);'
-//         const [posts, fields2] = await pool.query(command, [userId]);
-//         posts.forEach(async (element) => {
-//             command = 'SELECT u.id FROM user_react_post INNER JOIN users AS u on user_react_post.userId = u.id where user_react_post.postId = (?);';
-//             const [usersReact, fields3] = await pool.query(command, [element.id]);
-//             element.usersReact = usersReact;
-//         });
-//         res.send(posts);
-//     } catch (err) {
-//         res.status(500).send(err.message);
-//     }
-// }
+export const getPostsOfUser = async (req, res) => {
+  const { userId } = req.query;
+  try {
+    let command =
+      "SELECT * FROM posts WHERE ownerId = (?) ORDER BY createdAt DESC;";
+    const [posts, fields] = await pool.query(command, [userId]);
+    res.send(posts);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
 
 export const addPost = async (req, res) => {
   const { userId, contentImg, contentText } = req.body;

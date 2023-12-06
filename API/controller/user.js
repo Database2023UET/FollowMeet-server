@@ -76,12 +76,12 @@ export const suggestUser = async (req, res) => {
 export const updateInfo = async (req, res) => {
   const userId = req.body.userId;
   const username = req.body.username;
-  const name = req.body.name;
+  const fullName = req.body.fullName;
   const email = req.body.email;
   try {
     if (username) await checkValidUsername(username);
     if (email) await checkValidEmail(email);
-    if (name) await checkValidFullName(name);
+    if (fullName) await checkValidFullName(fullName);
     let command = "UPDATE users SET ";
     let data = [];
     if (username) {
@@ -93,9 +93,9 @@ export const updateInfo = async (req, res) => {
       command += "username = ?, ";
       data.push(username);
     }
-    if (name) {
-      command += "name = ?, ";
-      data.push(name);
+    if (fullName) {
+      command += "fullName = ?, ";
+      data.push(fullName);
     }
     if (email) {
       command += "email = ?, ";
