@@ -3,7 +3,7 @@ import pool from "../database.js";
 export const getReacts = async (req, res) => {
   const { postId } = req.query;
   try {
-    let command = "SELECT * FROM user_react_post WHERE postId = (?);";
+    let command = "SELECT * FROM user_react_post WHERE postId = (?) and deletedAt is null;";
     const [reacts, fields] = await pool.query(command, [postId]);
     res.send(reacts.length.toString());
   } catch (err) {
@@ -15,7 +15,7 @@ export const isReacted = async (req, res) => {
   const { postId, userId } = req.query;
   try {
     let command =
-      "SELECT * FROM user_react_post WHERE postId = (?) AND userId = (?);";
+      "SELECT * FROM user_react_post WHERE postId = (?) AND userId = (?) and deletedAt is null;";
     const [users, fields] = await pool.query(command, [postId, userId]);
     if (users.length > 0) {
       res.send(true);
@@ -31,7 +31,7 @@ export const reactPost = async (req, res) => {
   const { postId, userId } = req.body;
   try {
     let command =
-      "SELECT * FROM user_react_post WHERE postId = (?) AND userId = (?);";
+      "SELECT * FROM user_react_post WHERE postId = (?) AND userId = (?) and deletedAt is null;";
     const [users, fields] = await pool.query(command, [postId, userId]);
     if (users.length > 0) {
       throw new Error("User is already reacted");
@@ -48,7 +48,7 @@ export const unreactPost = async (req, res) => {
   const { postId, userId } = req.body;
   try {
     let command =
-      "SELECT * FROM user_react_post WHERE postId = (?) AND userId = (?) ;";
+      "SELECT * FROM user_react_post WHERE postId = (?) AND userId = (?) and deletedAt is null ;";
     const [users, fields] = await pool.query(command, [postId, userId]);
     if (users.length === 0) {
       throw new Error("User is not reacted");

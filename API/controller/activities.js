@@ -7,12 +7,14 @@ export const getLatestActivities = async (req, res) => {
     FROM user_react_post AS urp
     JOIN posts AS p ON urp.postId = p.id
     WHERE p.ownerId = (?) and urp.userId != (?)
+    and urp.deletedAt is null
     
     UNION ALL
     
     SELECT ufu.*, 'user_follow_user' as activity_type
     FROM user_follow_user AS ufu
     WHERE ufu.userTargetId = (?)
+    and ufu.deletedAt is null
     
     UNION ALL
     
@@ -20,6 +22,7 @@ export const getLatestActivities = async (req, res) => {
     FROM comments AS c
     JOIN posts AS p ON c.postId = p.id
     WHERE p.ownerId = (?) and c.ownerId != (?)
+    and c.deletedAt is null
     
     ORDER BY createdAt DESC, rand() limit 4;`;
     const [activities, fields] = await pool.query(command, [

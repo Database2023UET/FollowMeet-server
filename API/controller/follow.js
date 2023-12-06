@@ -4,7 +4,7 @@ export const isFollowed = async (req, res) => {
   const { userId, followingId } = req.query;
   try {
     let command =
-      "SELECT * FROM user_follow_user WHERE userSourceId = (?) AND userTargetId = (?);";
+      "SELECT * FROM user_follow_user WHERE userSourceId = (?) AND userTargetId = (?) and deletedAt is null;";
     const [users, fields] = await pool.query(command, [userId, followingId]);
     if (users.length > 0) {
       res.send(true);
@@ -21,7 +21,7 @@ export const followUser = async (req, res) => {
   try {
     // check if followed
     let command =
-      "SELECT * FROM user_follow_user WHERE userSourceId = (?) AND userTargetId = (?);";
+      "SELECT * FROM user_follow_user WHERE userSourceId = (?) AND userTargetId = (?) and deletedAt is null;";
     const [users, fields] = await pool.query(command, [userId, followingId]);
     if (users.length > 0) {
       throw new Error("User is already followed");
@@ -56,7 +56,7 @@ export const unfollowUser = async (req, res) => {
 export const getFollowers = async (req, res) => {
   const { userId } = req.query;
   try {
-    let command = "SELECT * FROM user_follow_user WHERE userTargetId = (?);";
+    let command = "SELECT * FROM user_follow_user WHERE userTargetId = (?) and deletedAt is null;";
     const [users, fields] = await pool.query(command, [userId]);
     res.send(users);
   } catch (err) {
@@ -69,7 +69,7 @@ export const getOnlineFollowings = async (req, res) => {
   try {
     // get online followings order by lastLogout
     let command =
-      "SELECT * FROM user_follow_user as ufu JOIN users as u ON ufu.userTargetId = u.id WHERE ufu.userSourceId = (?) ORDER BY u.lastLogout DESC, rand() limit 3;";
+      "SELECT * FROM user_follow_user as ufu JOIN users as u ON ufu.userTargetId = u.id WHERE ufu.userSourceId = (?) and ufu.deletedAt is null ORDER BY u.lastLogout DESC, rand() limit 3;";
     const [users, fields] = await pool.query(command, [userId]);
     res.send(users);
   } catch (err) {
