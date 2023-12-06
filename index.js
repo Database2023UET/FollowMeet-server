@@ -12,6 +12,7 @@ import commentRoutes from "./API/routes/comment.js";
 import userRoutes from "./API/routes/user.js";
 import followRoutes from "./API/routes/follow.js";
 import reactRoutes from "./API/routes/react.js";
+import activitiesRoutes from "./API/routes/activities.js";
 
 /* CONFIGUARATION */
 dotenv.config();
@@ -37,6 +38,7 @@ app.use("/api/comment", commentRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/follow", followRoutes);
 app.use("/api/react", reactRoutes);
+app.use("/api/activities", activitiesRoutes);
 
 /* SERVER */
 app.listen(port, async () => {

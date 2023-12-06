@@ -10,12 +10,11 @@ import checkValidUsername from "../Utils/checkValidUsername.js";
  */
 export const getUserInfos = async (req, res) => {
   const { userId } = req.query;
-  console.log(userId);
   try {
     const command = "SELECT * FROM users WHERE id = ?";
     const [users, fields] = await pool.query(command, [userId]);
     if (users.length === 0) {
-      throw new Error("User is not exist");
+      throw new Error(`User ${userId} is not exist`);
     }
     users.forEach((element) => {
       delete element.passwordHash;
@@ -37,7 +36,7 @@ export const getUserIdByUsername = async (req, res) => {
     const command = "SELECT * FROM users WHERE username = ?";
     const [users, fields] = await pool.query(command, [username]);
     if (users.length === 0) {
-      throw new Error("User is not exist");
+      throw new Error("Username is not exist");
     }
     res.send(users[0].id.toString());
   } catch (err) {
@@ -51,7 +50,7 @@ export const getUsernameById = async (req, res) => {
     const command = "SELECT * FROM users WHERE id = ?";
     const [users, fields] = await pool.query(command, [userId]);
     if (users.length === 0) {
-      throw new Error("User is not exist");
+      throw new Error("User id is not exist");
     }
     res.send(users[0].username);
   } catch (err) {
@@ -63,7 +62,7 @@ export const suggestUser = async (req, res) => {
   const { userId } = req.query;
   try {
     let command =
-      "select * from users left join user_follow_user as ufu on users.id = ufu.userTargetId where ufu.userTargetId is null and users.id != ? order by rand() limit 3;";
+      "select * from users where users.id not in (select ufu.userTargetId from user_follow_user as ufu) and users.id != (?) order by rand() limit 3;";
     const [users, fields] = await pool.query(command, [userId]);
     users.forEach((element) => {
       delete element.passWordHash;
