@@ -41,7 +41,7 @@ export const addPost = async (req, res) => {
     const newPostId = result[0][0].missing_id;
     const data = [newPostId, userId, contentImg, contentText, new Date()];
     const command =
-      "INSERT INTO posts (id, ownerId, contentImg, contentText, createdAt) VALUES (?, ?, ?, ?, ?)";
+      "INSERT INTO posts (id, ownerId, contentImg, contentText, createdAt, deletedAt) VALUES (?, ?, ?, ?, ?, NULL)";
     await pool.query(command, data);
     res.send("Post added successfully");
   } catch (err) {
