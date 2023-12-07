@@ -3,7 +3,9 @@ import {
   getUserIdByUsername,
   suggestUser,
   getUsernameById,
-  updateInfo
+  updateInfo,
+  updatePFP,
+  updateCover,
 } from "../controller/user.js";
 import express from "express";
 
@@ -14,5 +16,7 @@ router.get("/getUserIdByUsername", getUserIdByUsername);
 router.get("/suggestUser", suggestUser);
 router.get("/getUsernameById", getUsernameById);
 router.post("/updateInfo", updateInfo);
+router.post("/updatePFP", updatePFP);
+router.post("/updateCover", updateCover);
 
 export default router;

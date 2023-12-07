@@ -120,3 +120,29 @@ export const updateInfo = async (req, res) => {
     res.status(500).send(err.message);
   }
 };
+
+export const updatePFP = async (req, res) => {
+  const userId = req.body.userId;
+  const PFP = req.body.PFP;
+  try {
+    let command = "UPDATE users SET profilePicture = ? WHERE id = ?";
+    const data = [PFP, userId];
+    await pool.query(command, data);
+    res.send("Updated successfully");
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
+export const updateCover = async (req, res) => {
+  const userId = req.body.userId;
+  const coverPicture = req.body.coverPicture;
+  try {
+    let command = "UPDATE users SET coverPicture = ? WHERE id = ?";
+    const data = [coverPicture, userId];
+    await pool.query(command, data);
+    res.send("Updated successfully");
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
