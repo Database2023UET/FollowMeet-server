@@ -34,11 +34,13 @@ export const getPostsOfUser = async (req, res) => {
 
 export const addPost = async (req, res) => {
   const { userId, contentImg, contentText } = req.body;
+  console.log(req.body);
   try {
     const result = await pool.query(
-      "SELECT MIN(id + 1) as missing_id FROM posts WHERE deletedAt is null and id + 1 NOT IN (SELECT id FROM posts)"
+      "SELECT MAX(id + 1) as missing_id FROM posts;"
     );
     const newPostId = result[0][0].missing_id;
+    console.log(newPostId);
     const data = [newPostId, userId, contentImg, contentText, new Date()];
     const command =
       "INSERT INTO posts (id, ownerId, contentImg, contentText, createdAt, deletedAt) VALUES (?, ?, ?, ?, ?, NULL)";
