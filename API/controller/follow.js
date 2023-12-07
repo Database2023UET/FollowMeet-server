@@ -26,7 +26,7 @@ export const followUser = async (req, res) => {
     if (users.length > 0) {
       throw new Error("User is already followed");
     }
-    command = "INSERT INTO user_follow_user VALUES (?, ?, ?);";
+    command = "INSERT INTO user_follow_user VALUES (?, ?, ?, NULL);";
     await pool.query(command, [userId, followingId, new Date()]);
     res.send("Follow successfully");
   } catch (err) {
@@ -56,7 +56,8 @@ export const unfollowUser = async (req, res) => {
 export const getFollowers = async (req, res) => {
   const { userId } = req.query;
   try {
-    let command = "SELECT * FROM user_follow_user WHERE userTargetId = (?) and deletedAt is null;";
+    let command =
+      "SELECT * FROM user_follow_user WHERE userTargetId = (?) and deletedAt is null;";
     const [users, fields] = await pool.query(command, [userId]);
     res.send(users);
   } catch (err) {
