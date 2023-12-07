@@ -31,7 +31,7 @@ export const addComment = async (req, res) => {
   const { userId, postId, contentText } = req.body;
   try {
     let result = await pool.query(
-      "SELECT MIN(id + 1) as missing_id FROM comments WHERE id + 1 NOT IN (SELECT id FROM comments) and deletedAt is null"
+      "SELECT MAX(id + 1) as missing_id FROM comments;"
     );
     const newCommentId = result[0][0].missing_id;
     const data = [newCommentId, userId, postId, contentText, new Date()];
