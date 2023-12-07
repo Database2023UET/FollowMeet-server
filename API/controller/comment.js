@@ -36,7 +36,7 @@ export const addComment = async (req, res) => {
     const newCommentId = result[0][0].missing_id;
     const data = [newCommentId, userId, postId, contentText, new Date()];
     let command =
-      "INSERT INTO comments (id, ownerId, postId, contentText, createdAt) VALUES (?, ?, ?, ?, ?);";
+      "INSERT INTO comments (id, ownerId, postId, contentText, createdAt, deletedAt) VALUES (?, ?, ?, ?, ?, NULL);";
     await pool.query(command, data);
     res.send("Add comment successfully");
   } catch (err) {
